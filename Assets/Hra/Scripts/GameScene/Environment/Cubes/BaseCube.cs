@@ -1,18 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseCube : MonoBehaviour
+public abstract class BaseCube : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    protected Rigidbody2D _rigidbody;
 
-    // Update is called once per frame
-    void Update()
+    protected abstract void HandleAction();
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        if (collision.gameObject.CompareTag(GlobalConstants.Tags.Player.ToString()))
+        {
+            _rigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
+            // TODO: player needs to be dashing for action to occur
+            if (true)
+            {
+                HandleAction();
+            }
+        }
     }
 }

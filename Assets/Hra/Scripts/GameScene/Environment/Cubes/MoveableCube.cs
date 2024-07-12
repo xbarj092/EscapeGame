@@ -1,18 +1,30 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveableCube : MonoBehaviour
+public class MoveableCube : BaseCube
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private float _moveDistance = 1f;
+    [SerializeField] private float _moveDuration = 0.5f;
+
+    protected override void HandleAction()
     {
-        
+        StartCoroutine(MoveCube());
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator MoveCube()
     {
-        
+        Vector3 startPosition = transform.position;
+        Vector3 direction = _rigidbody.velocity.x > 0 ? Vector3.right : Vector3.left;
+        Vector3 endPosition = transform.position + direction * _moveDistance;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < _moveDuration)
+        {
+            transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime / _moveDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = endPosition;
     }
 }
