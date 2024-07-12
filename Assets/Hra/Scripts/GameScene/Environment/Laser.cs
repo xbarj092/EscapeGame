@@ -55,6 +55,10 @@ public class Laser : MonoBehaviour
                 {
                     PlayerEvents.OnPlayerDeathInvoke();
                 }
+                else if (hit.transform.gameObject.CompareTag(GlobalConstants.Tags.BreakableCube.ToString()))
+                {
+                    Destroy(hit.transform.gameObject);
+                }
                 else
                 {
                     gameObject.SetActive(true);

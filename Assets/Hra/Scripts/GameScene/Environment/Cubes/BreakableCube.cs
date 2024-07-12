@@ -1,18 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BreakableCube : MonoBehaviour
+public class BreakableCube : BaseCube
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void HandleAction()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Destroy(gameObject);
     }
 }
