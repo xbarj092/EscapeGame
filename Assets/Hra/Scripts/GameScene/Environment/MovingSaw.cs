@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class MovingSaw : MonoBehaviour
 {
+    [SerializeField] private Collider2D _collider;
     [SerializeField] private Transform _startTransform;
     [SerializeField] private Transform _endTransform;
     [SerializeField] private float _speed = 1.0f;
@@ -28,6 +29,14 @@ public class MovingSaw : MonoBehaviour
         if (Vector3.Distance(transform.position, _targetPosition) < TARGET_POSITION_THRESHOLD)
         {
             _targetPosition = _targetPosition == _startTransform.position ? _endTransform.position : _startTransform.position;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag(GlobalConstants.Tags.Player.ToString()))
+        {
+            PlayerEvents.OnPlayerDeathInvoke();
         }
     }
 }
