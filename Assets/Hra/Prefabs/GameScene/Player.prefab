@@ -96,8 +96,8 @@ GameObject:
   - component: {fileID: 3320655841950052090}
   - component: {fileID: 7385088848094576648}
   - component: {fileID: 3577795440098832013}
-  - component: {fileID: 7639144543462891902}
-  - component: {fileID: 8219207485757015472}
+  - component: {fileID: 1287247215443694255}
+  - component: {fileID: 4249418124691682122}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -245,21 +245,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &7639144543462891902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4919361198104188097}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c39be11940ec2fb45a81d90e13ca7be5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 8219207485757015472}
-  horizontalMultiplier: 40
---- !u!114 &8219207485757015472
+--- !u!114 &1287247215443694255
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -272,18 +258,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_JumpForce: 400
-  m_CrouchSpeed: 0.36
   m_MovementSmoothing: 0.05
   m_AirControl: 1
   m_WhatIsGround:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 119
   m_GroundCheck: {fileID: 8151990110295524344}
   m_CeilingCheck: {fileID: 8151990110295524344}
-  m_CrouchDisableCollider: {fileID: 0}
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
-  OnCrouchEvent:
-    m_PersistentCalls:
-      m_Calls: []
+--- !u!114 &4249418124691682122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4919361198104188097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39be11940ec2fb45a81d90e13ca7be5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 1287247215443694255}
+  horizontalMultiplier: 40
