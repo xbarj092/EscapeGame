@@ -171,5 +171,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244fdb91a77cd844c8440c1dc350da16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveDistance: 1
-  _moveDuration: 0.5
+  _cubeRigidbody: {fileID: 1043373964901686811}
+  _force: {x: 0.01, y: 0}
