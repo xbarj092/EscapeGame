@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5075042579514952396}
   m_Layer: 0
   m_Name: MoveableCube
-  m_TagString: Untagged
+  m_TagString: MoveableCube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -144,7 +144,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.0001
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -172,4 +172,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cubeRigidbody: {fileID: 1043373964901686811}
-  _force: {x: 0.01, y: 0}
+  _force: {x: 1, y: 0}
+  _raycastDistance: 0.51
