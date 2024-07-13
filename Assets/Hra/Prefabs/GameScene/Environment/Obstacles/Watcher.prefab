@@ -248,6 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f468ebe0914d5640b8842e2edb1349b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _watchlight: {fileID: 6846295722493412911}
   _eye: {fileID: 6206399224427607073}
   _startTransform: {fileID: 6526177017485953128}
   _endTransform: {fileID: 1658080199424128872}
@@ -266,6 +267,7 @@ GameObject:
   - component: {fileID: 7672417059350041620}
   - component: {fileID: 2559373549926811886}
   - component: {fileID: 6846295722493412911}
+  - component: {fileID: 4247291509211453214}
   m_Layer: 0
   m_Name: Watchlight
   m_TagString: Untagged
@@ -350,9 +352,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff5c911da618c8498e0515be22ef521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _volume: {fileID: 4247291509211453214}
+  _light: {fileID: 2559373549926811886}
   _detectionAngle: 75
   _detectionDistance: 4
   _raycastInterval: 5
+  _targetLostTime: 2
+--- !u!114 &4247291509211453214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6113374145828061858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 7e1d26d88da2a244fa05a1de2ee7593d, type: 2}
 --- !u!1 &6922393083487180451
 GameObject:
   m_ObjectHideFlags: 0
