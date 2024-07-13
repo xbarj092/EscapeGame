@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
  
 public class MenuCanvasController : MonoBehaviour
@@ -8,5 +6,11 @@ public class MenuCanvasController : MonoBehaviour
     public void PlayGame()
     {
         SceneLoadManager.Instance.GoMenuToGame();
+    }
+
+    // bound from inspector
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }
