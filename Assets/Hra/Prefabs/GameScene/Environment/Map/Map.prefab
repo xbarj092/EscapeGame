@@ -198,9 +198,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Watcher
       objectReference: {fileID: 0}
+    - target: {fileID: 1658080199424128872, guid: 48cac882269907b4ebcc2e9375f964c4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 4045744262680018997, guid: 48cac882269907b4ebcc2e9375f964c4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.10920048
+      value: -3.79
       objectReference: {fileID: 0}
     - target: {fileID: 4045744262680018997, guid: 48cac882269907b4ebcc2e9375f964c4, type: 3}
       propertyPath: m_LocalPosition.y
