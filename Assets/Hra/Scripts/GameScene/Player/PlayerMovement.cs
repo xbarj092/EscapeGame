@@ -11,6 +11,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (controller.isDashing)
+        {
+            return;
+        }
         _time += Time.deltaTime;
         horizontalMove = Input.GetAxisRaw("Horizontal") * horizontalMultiplier;
 
@@ -18,10 +22,19 @@ public class PlayerMovement : MonoBehaviour
         {
             controller.JumpPressed();
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && controller.dashPossible)
+        {
+            controller.DashPressed();
+        }
     }
 
     private void FixedUpdate()
     {
+        if (controller.isDashing)
+        {
+            return;
+        }
         controller.Move(horizontalMove * Time.fixedDeltaTime);
     }
 }
