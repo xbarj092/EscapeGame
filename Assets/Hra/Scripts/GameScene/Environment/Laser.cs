@@ -10,37 +10,12 @@ public enum Direction
 
 public class Laser : MonoBehaviour
 {
-    [SerializeField] private Sprite _sprite;
+    [SerializeField] private LineRenderer _lineRenderer;
     [SerializeField] private Direction _direction;
-
-    private GameObject _laser;
-    private LineRenderer _lineRenderer;
-
-    private void Start()
-    {
-        CreateLaserVisual();
-    }
 
     private void Update()
     {
         FireLaser();
-    }
-
-    private void CreateLaserVisual()
-    {
-        _laser = Instantiate(new GameObject("Laser"), transform);
-        _laser.transform.position = transform.position;
-
-        _lineRenderer = _laser.AddComponent<LineRenderer>();
-        _lineRenderer.startWidth = 0.1f;
-        _lineRenderer.endWidth = 0.1f;
-        _lineRenderer.positionCount = 2;
-        _lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        _lineRenderer.startColor = Color.red;
-        _lineRenderer.endColor = Color.red;
-
-        SpriteRenderer spriteRenderer = _laser.AddComponent<SpriteRenderer>();
-        spriteRenderer.sprite = _sprite;
     }
 
     private void FireLaser()

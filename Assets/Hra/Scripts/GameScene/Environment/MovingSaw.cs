@@ -24,6 +24,7 @@ public class MovingSaw : MonoBehaviour
 
     private void HandleMovement()
     {
+        transform.Rotate(0, 0, -40 * Time.deltaTime);
         transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _speed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, _targetPosition) < TARGET_POSITION_THRESHOLD)
