@@ -1,41 +1,51 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class CharacterController2D : MonoBehaviour
 {
 	[SerializeField] private float m_JumpForce = 400f;
-	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;
+	[Range(0, .3f)][SerializeField] private float m_MovementSmoothing = .05f;
 	[SerializeField] private LayerMask m_WhatIsGround;
 	[SerializeField] private Transform m_GroundCheck;
 
 	const float k_GroundedRadius = .55f; // Radius of the overlap circle to determine if grounded
 	public static bool m_Grounded { get; private set; }
-    private Rigidbody2D m_Rigidbody2D;
+	private Rigidbody2D m_Rigidbody2D;
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 m_Velocity = Vector3.zero;
 
 	[Header("TOGGLE ABILITIES")]
 	public bool canDash = false;
-    public bool canCoyoteJump = false;
-    public bool canDoubleJump = false;
+	public bool canCoyoteJump = false;
+	public bool canDoubleJump = false;
+    
+	[Header("DASH PROPERTIES")]
+    internal bool isDashing;
+	private float dashingPower = 24f;
+	private float dashingTime = 0.2f;
+	private float dashingCooldown = 1f;
 
-
-
-    private float _time;
+	private float _time;
 	private bool wantsToJump;
 
-    private void Awake()
+	private void Awake()
 	{
 		m_Rigidbody2D = GetComponent<Rigidbody2D>();
 	}
 
 	private float _leftGroundAt;
-    private float coyoteJumpOffset = 0.1f;
+	private float coyoteJumpOffset = 0.1f;
 	private bool doubleJumpCharge;
 
-    private void FixedUpdate()
+	private void FixedUpdate()
 	{
-		bool wasGrounded = m_Grounded;
+        if (isDashing)
+        {
+			return;
+        }
+        bool wasGrounded = m_Grounded;
 		m_Grounded = false;
 		Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
 		for (int i = 0; i < colliders.Length; i++)
@@ -57,13 +67,18 @@ public class CharacterController2D : MonoBehaviour
 		wantsToJump = true;
 	}
 
-    private void Update()
-    {
+	private void Update()
+	{
+        if (isDashing)
+        {
+			return;
+        }
         _time += Time.deltaTime;
-    }
+	}
 
-    private bool coyoteJumpPossible => canCoyoteJump && !m_Grounded && _time < _leftGroundAt + coyoteJumpOffset;
-    private bool doubleJumpPossible => canDoubleJump && !m_Grounded && doubleJumpCharge;
+	private bool coyoteJumpPossible => canCoyoteJump && !m_Grounded && _time < _leftGroundAt + coyoteJumpOffset;
+	private bool doubleJumpPossible => canDoubleJump && !m_Grounded && doubleJumpCharge;
+	internal bool dashPossible = true;
 
     public void Move(float move)
 	{
@@ -117,4 +132,26 @@ public class CharacterController2D : MonoBehaviour
 		theScale.x *= -1;
 		transform.localScale = theScale;
 	}
+
+	internal void DashPressed()
+	{
+        if (canDash)
+        {
+            StartCoroutine(Dash());
+        }
+    }
+
+    private IEnumerator Dash()
+    {
+		dashPossible = false;
+		isDashing = true;
+		float originalGravity = m_Rigidbody2D.gravityScale;
+		m_Rigidbody2D.gravityScale = 0f;
+		m_Rigidbody2D.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+		yield return new WaitForSeconds(dashingTime);
+		m_Rigidbody2D.gravityScale = originalGravity;
+		isDashing = false;
+		yield return new WaitForSeconds(dashingCooldown);
+		dashPossible = true;
+    }
 }
