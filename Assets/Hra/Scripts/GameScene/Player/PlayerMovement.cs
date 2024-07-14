@@ -36,13 +36,11 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _controller.JumpPressed();
-            PlayerEvents.OnPlayerJumpedInvoke();
         }
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && _controller.IsDashPossible())
         {
             _controller.DashPressed();
-            PlayerEvents.OnPlayerDashedInvoke();
         }
     }
 }
