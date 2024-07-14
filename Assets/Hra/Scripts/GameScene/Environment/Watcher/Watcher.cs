@@ -21,20 +21,20 @@ public class Watcher : MonoBehaviour
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private float _rotationTime;
 
+    private Quaternion _rotationToEnd;
+    private Quaternion _rotationToStart;
+    private Quaternion _defaultEyeRotation;
+    private Quaternion _targetRotation;
+
     private WatcherState _currentState;
     private Transform _playerTransform;
 
-    private Quaternion _targetRotation;
     private Vector3 _targetPosition;
     private bool _isWatching = false;
-    private Quaternion _defaultEyeRotation;
-
-    private Quaternion _rotationToEnd;
-    private Quaternion _rotationToStart;
-
-    private const float TARGET_POSITION_THRESHOLD = 0.01f;
 
     private CancellationTokenSource _cancellationTokenSource;
+
+    private const float TARGET_POSITION_THRESHOLD = 0.01f;
 
     private void OnEnable()
     {
@@ -56,6 +56,7 @@ public class Watcher : MonoBehaviour
 
         transform.SetPositionAndRotation(_startTransform.position, _rotationToEnd);
         _targetPosition = _endTransform.position;
+        _targetRotation = _rotationToEnd;
         _defaultEyeRotation = _eye.localRotation;
 
         _cancellationTokenSource = new CancellationTokenSource();
@@ -85,10 +86,7 @@ public class Watcher : MonoBehaviour
 
     private void StartWatching()
     {
-        if (_cancellationTokenSource != null)
-        {
-            _cancellationTokenSource.Cancel();
-        }
+        _cancellationTokenSource?.Cancel();
 
         _cancellationTokenSource = new CancellationTokenSource();
         StartCoroutine(DelayedWatch(_cancellationTokenSource.Token));
@@ -98,9 +96,7 @@ public class Watcher : MonoBehaviour
     {
         float watchDuration = Random.Range(0, 4);
         _isWatching = true;
-
-        _targetRotation = _targetPosition == _startTransform.position ? _rotationToEnd : _rotationToStart;
-
+        
         if (watchDuration > 0.5f)
         {
             float elapsed = 0f;
@@ -138,8 +134,16 @@ public class Watcher : MonoBehaviour
             yield return new WaitForSeconds(watchDuration);
         }
 
-        _targetRotation = _targetPosition == _startTransform.position ? _rotationToEnd : _rotationToStart;
-        StartCoroutine(SwitchTarget(_cancellationTokenSource.Token));
+        if (_targetPosition == _startTransform.position)
+        {
+            _targetRotation = _rotationToEnd;
+        }
+        else if (_targetPosition == _endTransform.position)
+        {
+            _targetRotation = _rotationToStart;
+        }
+
+        StartCoroutine(SwitchTarget(_cancellationTokenSource.Token, true));
     }
 
     private void OnPlayerSpotted(Transform playerTransform)
@@ -147,6 +151,7 @@ public class Watcher : MonoBehaviour
         _playerTransform = playerTransform;
         _currentState = WatcherState.Aggro;
         _cancellationTokenSource.Cancel();
+        _cancellationTokenSource = new CancellationTokenSource();
     }
 
     private void ExecuteAggroBehavior()
@@ -183,15 +188,15 @@ public class Watcher : MonoBehaviour
     {
         _playerTransform = null;
         _currentState = WatcherState.Patrol;
+        _cancellationTokenSource.Cancel();
         _cancellationTokenSource = new CancellationTokenSource();
         _watchlight.SetAlert(true);
 
-        StartCoroutine(SwitchTarget(_cancellationTokenSource.Token));
+        StartCoroutine(SwitchTarget(_cancellationTokenSource.Token, false));
     }
 
-    private IEnumerator SwitchTarget(CancellationToken token)
+    private IEnumerator SwitchTarget(CancellationToken token, bool reset)
     {
-        Debug.Log(transform.rotation.z);
         float rotationTime = 0f;
         while (rotationTime < _rotationTime)
         {
@@ -206,7 +211,18 @@ public class Watcher : MonoBehaviour
             yield return null;
         }
 
-        _targetPosition = _targetPosition == _startTransform.position ? _endTransform.position : _startTransform.position;
+        if (reset)
+        {
+            if (_targetPosition == _startTransform.position)
+            {
+                _targetPosition = _endTransform.position;
+            }
+            else if (_targetPosition == _endTransform.position)
+            {
+                _targetPosition = _startTransform.position;
+            }
+        }
+        
         _isWatching = false;
     }
 }
