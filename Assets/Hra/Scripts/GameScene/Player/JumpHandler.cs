@@ -49,7 +49,6 @@ public class JumpHandler
 
     private void PerformDoubleJump()
     {
-        PlayerEvents.OnPlayerDoubleJumpedInvoke();
         Vector2 currentVelocity = _controller.Rigidbody2D.velocity;
         currentVelocity.y = 0;
         _controller.Rigidbody2D.velocity = currentVelocity;
@@ -62,6 +61,6 @@ public class JumpHandler
     public void UpdateTimeElapsed(float deltaTime) => TimeElapsed += deltaTime;
 
     private bool IsCoyoteJumpPossible() => !GroundChecker.IsGrounded && TimeElapsed < GroundChecker.LeftGroundTime + COYOTE_JUMP_OFFSET;
-    private bool IsDoubleJumpPossible() => !GroundChecker.IsGrounded && DoubleJumpCharged;
-    private bool IsJumpPossible() => GroundChecker.IsGrounded || IsCoyoteJumpPossible() || _controller.IsWallCoyoteJumpPossible();
+    private bool IsDoubleJumpPossible() => _controller.CanDoubleJump && !GroundChecker.IsGrounded && DoubleJumpCharged;
+    private bool IsJumpPossible() => _controller.CanJump && GroundChecker.IsGrounded || IsCoyoteJumpPossible() || _controller.IsWallCoyoteJumpPossible();
 }
