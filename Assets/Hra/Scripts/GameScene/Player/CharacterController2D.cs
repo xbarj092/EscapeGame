@@ -1,157 +1,64 @@
-using System;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class CharacterController2D : MonoBehaviour
 {
-	[SerializeField] private float m_JumpForce = 400f;
-	[Range(0, .3f)][SerializeField] private float m_MovementSmoothing = .05f;
-	[SerializeField] private LayerMask m_WhatIsGround;
-	[SerializeField] private Transform m_GroundCheck;
+    private FlipHandler _flipHandler;
+    private DashHandler _dashHandler;
+    private JumpHandler _jumpHandler;
 
-	const float k_GroundedRadius = .55f; // Radius of the overlap circle to determine if grounded
-	public static bool m_Grounded { get; private set; }
-	private Rigidbody2D m_Rigidbody2D;
-	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
-	private Vector3 m_Velocity = Vector3.zero;
+    [SerializeField] private float _movementSmoothing = 0.05f;
+    [field: SerializeField] public LayerMask WhatIsGround { get; private set; }
+    [field: SerializeField] public Transform GroundCheck { get; private set; }
+    [HideInInspector] public Rigidbody2D Rigidbody2D;
 
-	[Header("TOGGLE ABILITIES")]
-	public bool canDash = false;
-	public bool canCoyoteJump = false;
-	public bool canDoubleJump = false;
-    
-	[Header("DASH PROPERTIES")]
-    internal bool isDashing;
-	private float dashingPower = 24f;
-	private float dashingTime = 0.2f;
-	private float dashingCooldown = 1f;
+    [Header("TOGGLE ABILITIES")]
+    public bool CanDash = false;
+    public bool CanCoyoteJump = false;
+    public bool CanDoubleJump = false;
 
-	private float _time;
-	private bool wantsToJump;
+    private Vector3 _velocity = Vector3.zero;
 
-	private void Awake()
-	{
-		m_Rigidbody2D = GetComponent<Rigidbody2D>();
-	}
+    private void Awake()
+    {
+        Rigidbody2D = GetComponent<Rigidbody2D>();
 
-	private float _leftGroundAt;
-	private float coyoteJumpOffset = 0.1f;
-	private bool doubleJumpCharge;
+        _flipHandler = new(this);
+        _dashHandler = new(this);
+        _jumpHandler = new(this);
+    }
 
-	private void FixedUpdate()
-	{
-        if (isDashing)
-        {
-			return;
-        }
-        bool wasGrounded = m_Grounded;
-		m_Grounded = false;
-		Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
-		for (int i = 0; i < colliders.Length; i++)
-		{
-			if (colliders[i].gameObject != gameObject)
-			{
-				m_Grounded = true;
-				doubleJumpCharge = true;
-			}
-		}
-		if (wasGrounded && !m_Grounded)
-		{
-			_leftGroundAt = _time;
-		}
-	}
+    private void FixedUpdate()
+    {
+        if (_dashHandler.IsDashing) return;
 
-	public void JumpPressed()
-	{
-		wantsToJump = true;
-	}
-
-	private void Update()
-	{
-        if (isDashing)
-        {
-			return;
-        }
-        _time += Time.deltaTime;
-	}
-
-	private bool coyoteJumpPossible => canCoyoteJump && !m_Grounded && _time < _leftGroundAt + coyoteJumpOffset;
-	private bool doubleJumpPossible => canDoubleJump && !m_Grounded && doubleJumpCharge;
-	internal bool dashPossible = true;
+        _jumpHandler.UpdateTimeElapsed(Time.deltaTime);
+        _jumpHandler.GroundChecker.CheckGroundStatus();
+    }
 
     public void Move(float move)
-	{
-		// Move the character by finding the target velocity
-		Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
-		// And then smoothing it out and applying it to the character
-		m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
-
-		if ((move > 0 && !m_FacingRight) || (move < 0 && m_FacingRight)) 
-		{
-			Flip();
-		}
-
-		if (wantsToJump)
-		{
-            if (m_Grounded)
-            {
-				m_Grounded = false;
-				m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
-            }
-			else
-			{
-				if (coyoteJumpPossible)
-				{
-					m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
-				}
-                if (doubleJumpPossible)
-                {
-                    //m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
-                    // Reset the vertical velocity
-                    Vector2 currentVelocity = m_Rigidbody2D.velocity;
-                    currentVelocity.y = 0;
-                    m_Rigidbody2D.velocity = currentVelocity;
-
-                    // Apply the jump force
-                    m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
-                    doubleJumpCharge = false;
-                }
-            }
-        }
-		wantsToJump = false;
-	}
-
-	private void Flip()
-	{
-		// Switch the way the player is labelled as facing.
-		m_FacingRight = !m_FacingRight;
-
-		// Multiply the player's x local scale by -1.
-		Vector3 theScale = transform.localScale;
-		theScale.x *= -1;
-		transform.localScale = theScale;
-	}
-
-	internal void DashPressed()
-	{
-        if (canDash)
-        {
-            StartCoroutine(Dash());
-        }
-    }
-
-    private IEnumerator Dash()
     {
-		dashPossible = false;
-		isDashing = true;
-		float originalGravity = m_Rigidbody2D.gravityScale;
-		m_Rigidbody2D.gravityScale = 0f;
-		m_Rigidbody2D.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
-		yield return new WaitForSeconds(dashingTime);
-		m_Rigidbody2D.gravityScale = originalGravity;
-		isDashing = false;
-		yield return new WaitForSeconds(dashingCooldown);
-		dashPossible = true;
+        if (_dashHandler.IsDashing) return;
+
+        ApplyMovement(move);
+        _jumpHandler.HandleJumping();
     }
+
+    private void ApplyMovement(float move)
+    {
+        Vector3 targetVelocity = new(move * 2f, Rigidbody2D.velocity.y);
+        Rigidbody2D.velocity = Vector3.SmoothDamp(Rigidbody2D.velocity, targetVelocity, ref _velocity, _movementSmoothing);
+
+        _flipHandler.CheckFlip(move);
+    }
+
+    public void JumpPressed() => _jumpHandler.SetWantsToJump(true);
+
+    public void DashPressed() => _dashHandler.DashPressed();
+
+    public bool IsDashing() => _dashHandler.IsDashing;
+
+    public bool IsDashPossible() => _dashHandler.DashPossible;
+
+    public float TimeToNextDash() => _dashHandler.TimeToNextDash();
 }

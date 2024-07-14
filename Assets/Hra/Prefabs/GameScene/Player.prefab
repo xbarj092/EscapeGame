@@ -216,7 +216,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.95, y: 0.95}
   m_EdgeRadius: 0
 --- !u!50 &3577795440098832013
 Rigidbody2D:
@@ -257,17 +257,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9cee43bf9b1d324b89dead18e6697b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 400
-  m_MovementSmoothing: 0.05
-  m_AirControl: 1
-  m_WhatIsGround:
+  Rigidbody2D: {fileID: 3577795440098832013}
+  _movementSmoothing: 0.05
+  <WhatIsGround>k__BackingField:
     serializedVersion: 2
-    m_Bits: 119
-  m_GroundCheck: {fileID: 8151990110295524344}
-  m_CeilingCheck: {fileID: 8151990110295524344}
-  OnLandEvent:
-    m_PersistentCalls:
-      m_Calls: []
+    m_Bits: 4294967295
+  <GroundCheck>k__BackingField: {fileID: 8151990110295524344}
+  CanDash: 1
+  CanCoyoteJump: 1
+  CanDoubleJump: 1
 --- !u!114 &4249418124691682122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,5 +278,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39be11940ec2fb45a81d90e13ca7be5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 1287247215443694255}
-  horizontalMultiplier: 40
+  _controller: {fileID: 1287247215443694255}
+  _horizontalMultiplier: 40

@@ -2,39 +2,28 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public CharacterController2D _controller;
+    public float _horizontalMultiplier = 40f;
+    private float _horizontalMove = 0f;
 
-    public CharacterController2D controller;
-    public float horizontalMultiplier = 40f;
-    private float horizontalMove = 0f;
-    private bool jump = false;
-    private float _time;
-
-    void Update()
+    private void Update()
     {
-        if (controller.isDashing)
+        if (_controller.IsDashing())
         {
             return;
         }
-        _time += Time.deltaTime;
-        horizontalMove = Input.GetAxisRaw("Horizontal") * horizontalMultiplier;
 
-        if (Input.GetButtonDown("Jump")) 
+        _horizontalMove = Input.GetAxisRaw("Horizontal") * _horizontalMultiplier;
+        _controller.Move(_horizontalMove * Time.fixedDeltaTime);
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            controller.JumpPressed();
+            _controller.JumpPressed();
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && controller.dashPossible)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _controller.IsDashPossible())
         {
-            controller.DashPressed();
+            _controller.DashPressed();
         }
-    }
-
-    private void FixedUpdate()
-    {
-        if (controller.isDashing)
-        {
-            return;
-        }
-        controller.Move(horizontalMove * Time.fixedDeltaTime);
     }
 }
