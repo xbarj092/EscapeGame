@@ -2,7 +2,9 @@ using UnityEngine;
 
 public abstract class BaseCube : MonoBehaviour
 {
-    protected Rigidbody2D _rigidbody;
+    [SerializeField] protected Rigidbody2D _cubeRigidbody;
+
+    protected CharacterController2D _controller;
 
     protected abstract void HandleAction();
 
@@ -10,12 +12,18 @@ public abstract class BaseCube : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(GlobalConstants.Tags.Player.ToString()))
         {
-            _rigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
-            // TODO: player needs to be dashing for action to occur
-            if (true)
+            if (CanHandleAction(collision))
             {
                 HandleAction();
             }
+            else
+            {
+                _cubeRigidbody.isKinematic = true;
+                _cubeRigidbody.velocity = Vector2.zero;
+            }
         }
     }
+
+    private bool CanHandleAction(Collision2D collision) => 
+        collision.gameObject.TryGetComponent(out _controller) && _controller.IsDashing();
 }

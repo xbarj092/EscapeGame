@@ -2,39 +2,47 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public CharacterController2D _controller;
+    public float _horizontalMultiplier = 40f;
+    public float _verticalMultiplier = 20f;
+    private float _horizontalMove = 0f;
+    private float _verticalMove = 0f;
 
-    public CharacterController2D controller;
-    public float horizontalMultiplier = 40f;
-    private float horizontalMove = 0f;
-    private bool jump = false;
-    private float _time;
-
-    void Update()
+    private void Update()
     {
-        if (controller.isDashing)
-        {
-            return;
-        }
-        _time += Time.deltaTime;
-        horizontalMove = Input.GetAxisRaw("Horizontal") * horizontalMultiplier;
+        if (_controller.IsDashing()) return;
 
-        if (Input.GetButtonDown("Jump")) 
+        _horizontalMove = Input.GetAxisRaw("Horizontal") * _horizontalMultiplier;
+        _verticalMove = Input.GetAxisRaw("Vertical") * _verticalMultiplier;
+
+        if (_verticalMove != 0f)
         {
-            controller.JumpPressed();
+            _controller.ClimbPressed();
+            _controller.Move(_verticalMove * Time.deltaTime, false);
+            PlayerEvents.OnPlayerClimbedInvoke();
+        }
+        else
+        {
+            _controller.ClimbReleased();
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && controller.dashPossible)
-        {
-            controller.DashPressed();
-        }
-    }
+        _controller.Move(_horizontalMove * Time.deltaTime);
 
-    private void FixedUpdate()
-    {
-        if (controller.isDashing)
+        if (_horizontalMove != 0f)
         {
-            return;
+            PlayerEvents.OnPlayerMovedInvoke();
         }
-        controller.Move(horizontalMove * Time.fixedDeltaTime);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _controller.JumpPressed();
+            PlayerEvents.OnPlayerJumpedInvoke();
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _controller.IsDashPossible())
+        {
+            _controller.DashPressed();
+            PlayerEvents.OnPlayerDashedInvoke();
+        }
     }
 }

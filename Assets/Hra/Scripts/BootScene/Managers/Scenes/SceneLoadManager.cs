@@ -1,6 +1,6 @@
 public class SceneLoadManager : MonoSingleton<SceneLoadManager>
 {
-    public override void Init()
+    protected override void Init()
     {
         base.Init();
         GoBootToMenu();
