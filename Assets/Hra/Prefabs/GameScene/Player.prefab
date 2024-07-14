@@ -216,7 +216,7 @@ MonoBehaviour:
   - {fileID: 8531843326280866122}
   <WhatIsWall>k__BackingField:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 8
   <WallCheckList>k__BackingField:
   - {fileID: 1914984492885081589}
   Rigidbody2D: {fileID: 3577795440098832013}
