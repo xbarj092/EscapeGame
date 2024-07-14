@@ -49,6 +49,7 @@ public class JumpHandler
 
     private void PerformDoubleJump()
     {
+        PlayerEvents.OnPlayerDoubleJumpedInvoke();
         Vector2 currentVelocity = _controller.Rigidbody2D.velocity;
         currentVelocity.y = 0;
         _controller.Rigidbody2D.velocity = currentVelocity;

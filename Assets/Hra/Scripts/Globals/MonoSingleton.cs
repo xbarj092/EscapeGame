@@ -53,7 +53,7 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
         }
     }
 
-    public virtual void Init() { }
+    protected virtual void Init() { }
 
     private void OnApplicationQuit()
     {

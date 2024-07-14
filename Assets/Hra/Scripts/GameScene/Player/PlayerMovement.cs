@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _controller.ClimbPressed();
             _controller.Move(_verticalMove * Time.deltaTime, false);
+            PlayerEvents.OnPlayerClimbedInvoke();
         }
         else
         {
@@ -27,14 +28,21 @@ public class PlayerMovement : MonoBehaviour
 
         _controller.Move(_horizontalMove * Time.deltaTime);
 
+        if (_horizontalMove != 0f)
+        {
+            PlayerEvents.OnPlayerMovedInvoke();
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _controller.JumpPressed();
+            PlayerEvents.OnPlayerJumpedInvoke();
         }
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && _controller.IsDashPossible())
         {
             _controller.DashPressed();
+            PlayerEvents.OnPlayerDashedInvoke();
         }
     }
 }
