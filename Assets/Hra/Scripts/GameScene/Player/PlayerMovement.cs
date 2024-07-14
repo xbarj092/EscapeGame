@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
         if (_verticalMove != 0f)
         {
             _controller.ClimbPressed();
-            _controller.Move(_verticalMove * Time.deltaTime, false);
+            _controller.Move(_verticalMove * Time.fixedDeltaTime, false);
             PlayerEvents.OnPlayerClimbedInvoke();
         }
         else
@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
             _controller.ClimbReleased();
         }
 
-        _controller.Move(_horizontalMove * Time.deltaTime);
+        _controller.Move(_horizontalMove * Time.fixedDeltaTime);
 
         if (_horizontalMove != 0f)
         {
