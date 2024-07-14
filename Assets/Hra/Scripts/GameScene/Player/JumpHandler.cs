@@ -5,7 +5,8 @@ public class JumpHandler
     public GroundChecker GroundChecker { get; }
 
     private readonly CharacterController2D _controller;
-    private readonly float _jumpForce = 400f;
+    private readonly float _verticalJumpForce = 400f;
+    private readonly float _horizontalJumpForce = 400f;
 
     public bool DoubleJumpCharged;
     public float TimeElapsed { get; private set; }
@@ -23,11 +24,12 @@ public class JumpHandler
     {
         if (!_wantsToJump) return;
 
-        if (GroundChecker.IsGrounded)
+        if (_controller.IsOnWall())
         {
-            PerformJump();
+            float force = _controller.IsFacingRight() ? -_horizontalJumpForce : _horizontalJumpForce;
+            PerformJump(force);
         }
-        else if (IsCoyoteJumpPossible())
+        else if (IsJumpPossible())
         {
             PerformJump();
         }
@@ -39,28 +41,26 @@ public class JumpHandler
         _wantsToJump = false;
     }
 
-    public void SetWantsToJump(bool wantsToJump) => _wantsToJump = wantsToJump;
-
-    public void UpdateTimeElapsed(float deltaTime) => TimeElapsed += deltaTime;
-
-    private void PerformJump()
+    private void PerformJump(float horizontalVelocity = 0f)
     {
         GroundChecker.IsGrounded = false;
-        _controller.Rigidbody2D.AddForce(new Vector2(0f, _jumpForce));
+        _controller.Rigidbody2D.AddForce(new Vector2(horizontalVelocity, _verticalJumpForce));
     }
 
     private void PerformDoubleJump()
     {
-        var currentVelocity = _controller.Rigidbody2D.velocity;
+        Vector2 currentVelocity = _controller.Rigidbody2D.velocity;
         currentVelocity.y = 0;
         _controller.Rigidbody2D.velocity = currentVelocity;
 
-        _controller.Rigidbody2D.AddForce(new Vector2(0f, _jumpForce));
+        _controller.Rigidbody2D.AddForce(new Vector2(0f, _verticalJumpForce));
         DoubleJumpCharged = false;
     }
 
-    private bool IsCoyoteJumpPossible() => _controller.CanCoyoteJump && !GroundChecker.IsGrounded && 
-        TimeElapsed < GroundChecker.LeftGroundTime + COYOTE_JUMP_OFFSET;
+    public void SetWantsToJump(bool wantsToJump) => _wantsToJump = wantsToJump;
+    public void UpdateTimeElapsed(float deltaTime) => TimeElapsed += deltaTime;
 
-    private bool IsDoubleJumpPossible() => _controller.CanDoubleJump && !GroundChecker.IsGrounded && DoubleJumpCharged;
+    private bool IsCoyoteJumpPossible() => !GroundChecker.IsGrounded && TimeElapsed < GroundChecker.LeftGroundTime + COYOTE_JUMP_OFFSET;
+    private bool IsDoubleJumpPossible() => !GroundChecker.IsGrounded && DoubleJumpCharged;
+    private bool IsJumpPossible() => GroundChecker.IsGrounded || IsCoyoteJumpPossible() || _controller.IsWallCoyoteJumpPossible();
 }

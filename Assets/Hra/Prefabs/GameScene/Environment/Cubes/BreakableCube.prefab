@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6631888043460620386}
   - component: {fileID: 88267414260444460}
   - component: {fileID: -6779423742930139435}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BreakableCube
   m_TagString: BreakableCube
   m_Icon: {fileID: 0}

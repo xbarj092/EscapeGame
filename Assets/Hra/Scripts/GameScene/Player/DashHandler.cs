@@ -4,10 +4,10 @@ using UnityEngine;
 public class DashHandler
 {
     public bool IsDashing { get; private set; }
-    public bool DashPossible { get; private set; } = true;
 
     private readonly CharacterController2D _controller;
     private float _cooldownTimer = 0f;
+    private bool _dashPossible = true;
 
     private const float DASHING_POWER = 10f;
     private const float DASHING_TIME = 0.2f;
@@ -28,10 +28,10 @@ public class DashHandler
 
     private IEnumerator PerformDash()
     {
-        DashPossible = false;
+        _dashPossible = false;
         IsDashing = true;
 
-        var originalGravity = _controller.Rigidbody2D.gravityScale;
+        float originalGravity = _controller.Rigidbody2D.gravityScale;
         _controller.Rigidbody2D.gravityScale = 0f;
         _controller.Rigidbody2D.velocity = new Vector2(_controller.transform.localScale.x * DASHING_POWER, 0f);
 
@@ -47,10 +47,10 @@ public class DashHandler
         }
 
         _cooldownTimer = 0f;
-        DashPossible = true;
+        _dashPossible = true;
     }
 
-    private bool IsDashPossible() => _controller.CanDash && DashPossible;
+    public bool IsDashPossible() => _dashPossible;
 
     public float TimeToNextDash() => _cooldownTimer / DASHING_COOLDOWN;
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -6,18 +7,18 @@ public class CharacterController2D : MonoBehaviour
     private FlipHandler _flipHandler;
     private DashHandler _dashHandler;
     private JumpHandler _jumpHandler;
+    private ClimbHandler _climbHandler;
 
-    [SerializeField] private float _movementSmoothing = 0.05f;
+    [field: SerializeField] public float MovementSmoothing = 0.05f;
+
     [field: SerializeField] public LayerMask WhatIsGround { get; private set; }
-    [field: SerializeField] public Transform GroundCheck { get; private set; }
+    [field: SerializeField] public List<Transform> GroundCheckList { get; private set; } = new();
+
+    [field: SerializeField] public LayerMask WhatIsWall { get; private set; }
+    [field: SerializeField] public List<Transform> WallCheckList { get; private set; } = new();
+
     [HideInInspector] public Rigidbody2D Rigidbody2D;
-
-    [Header("TOGGLE ABILITIES")]
-    public bool CanDash = false;
-    public bool CanCoyoteJump = false;
-    public bool CanDoubleJump = false;
-
-    private Vector3 _velocity = Vector3.zero;
+    [HideInInspector] public Vector3 Velocity = Vector3.zero;
 
     private void Awake()
     {
@@ -26,39 +27,56 @@ public class CharacterController2D : MonoBehaviour
         _flipHandler = new(this);
         _dashHandler = new(this);
         _jumpHandler = new(this);
+        _climbHandler = new(this);
     }
 
     private void FixedUpdate()
     {
         if (_dashHandler.IsDashing) return;
 
+        _climbHandler.UpdateTimeElapsed(Time.deltaTime);
+        _climbHandler.WallChecker.CheckWallStatus();
+
         _jumpHandler.UpdateTimeElapsed(Time.deltaTime);
         _jumpHandler.GroundChecker.CheckGroundStatus();
     }
 
-    public void Move(float move)
+    public void Move(float move, bool horizontal = true)
     {
         if (_dashHandler.IsDashing) return;
 
-        ApplyMovement(move);
+        if (horizontal)
+        {
+            ApplyMovement(move, true);
+        }
+        else if (_climbHandler.CanClimb())
+        {
+            ApplyMovement(move, false);
+        }
+
         _jumpHandler.HandleJumping();
     }
 
-    private void ApplyMovement(float move)
+    public void ApplyMovement(float move, bool horizontal)
     {
-        Vector3 targetVelocity = new(move * 2f, Rigidbody2D.velocity.y);
-        Rigidbody2D.velocity = Vector3.SmoothDamp(Rigidbody2D.velocity, targetVelocity, ref _velocity, _movementSmoothing);
+        Vector3 targetVelocity = horizontal ? new Vector3(move * 2f, Rigidbody2D.velocity.y) : new Vector3(0, move * 2f);
+        Rigidbody2D.velocity = Vector3.SmoothDamp(Rigidbody2D.velocity, targetVelocity, ref Velocity, MovementSmoothing);
 
-        _flipHandler.CheckFlip(move);
+        if (horizontal)
+        {
+            _flipHandler.CheckFlip(move);
+        }
     }
 
     public void JumpPressed() => _jumpHandler.SetWantsToJump(true);
-
     public void DashPressed() => _dashHandler.DashPressed();
+    public void ClimbPressed() => _climbHandler.SetWantsToClimb(true);
+    public void ClimbReleased() => _climbHandler.SetWantsToClimb(false);
 
+    public bool IsFacingRight() => _flipHandler.IsFacingRight();
+    public bool IsWallCoyoteJumpPossible() => _climbHandler.IsCoyoteJumpPossible();
+    public bool IsOnWall() => _climbHandler.IsOnWall();
     public bool IsDashing() => _dashHandler.IsDashing;
-
-    public bool IsDashPossible() => _dashHandler.DashPossible;
-
+    public bool IsDashPossible() => _dashHandler.IsDashPossible();
     public float TimeToNextDash() => _dashHandler.TimeToNextDash();
 }

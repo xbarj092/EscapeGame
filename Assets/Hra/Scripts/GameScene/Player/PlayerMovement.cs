@@ -4,17 +4,28 @@ public class PlayerMovement : MonoBehaviour
 {
     public CharacterController2D _controller;
     public float _horizontalMultiplier = 40f;
+    public float _verticalMultiplier = 20f;
     private float _horizontalMove = 0f;
+    private float _verticalMove = 0f;
 
     private void Update()
     {
-        if (_controller.IsDashing())
-        {
-            return;
-        }
+        if (_controller.IsDashing()) return;
 
         _horizontalMove = Input.GetAxisRaw("Horizontal") * _horizontalMultiplier;
-        _controller.Move(_horizontalMove * Time.fixedDeltaTime);
+        _verticalMove = Input.GetAxisRaw("Vertical") * _verticalMultiplier;
+
+        if (_verticalMove != 0f)
+        {
+            _controller.ClimbPressed();
+            _controller.Move(_verticalMove * Time.deltaTime, false);
+        }
+        else
+        {
+            _controller.ClimbReleased();
+        }
+
+        _controller.Move(_horizontalMove * Time.deltaTime);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {

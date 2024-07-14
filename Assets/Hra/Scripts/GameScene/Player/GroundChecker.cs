@@ -8,7 +8,7 @@ public class GroundChecker
     public float LeftGroundTime;
     public bool IsGrounded;
 
-    private const float GROUNDED_RADIUS = .5f;
+    private const float GROUND_CHECK_DISTANCE = 0.1f;
 
     public GroundChecker(CharacterController2D controller, JumpHandler jumpHandler)
     {
@@ -20,15 +20,20 @@ public class GroundChecker
     {
         bool wasGrounded = IsGrounded;
         IsGrounded = false;
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(_controller.GroundCheck.position, GROUNDED_RADIUS, _controller.WhatIsGround);
 
-        foreach (Collider2D collider in colliders)
+        foreach (Transform transform in _controller.GroundCheckList)
         {
-            if (collider.gameObject != _controller.gameObject)
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, GROUND_CHECK_DISTANCE, _controller.WhatIsGround);
+            if (hit.collider != null && hit.collider.gameObject != _controller.gameObject)
             {
                 IsGrounded = true;
                 _jumpHandler.DoubleJumpCharged = true;
             }
+        }
+
+        if (_controller.IsOnWall())
+        {
+            _jumpHandler.DoubleJumpCharged = true;
         }
 
         if (wasGrounded && !IsGrounded)

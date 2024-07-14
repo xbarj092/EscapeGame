@@ -27,4 +27,6 @@ public class FlipHandler
     }
 
     private bool ShouldFlip(float move) => (move > 0 && !_facingRight) || (move < 0 && _facingRight);
+
+    public bool IsFacingRight() => _facingRight;
 }
