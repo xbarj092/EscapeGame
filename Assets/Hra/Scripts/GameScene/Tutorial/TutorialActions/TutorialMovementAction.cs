@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ public class TutorialMovementAction : TutorialAction
     [SerializeField] private TutorialCollision _climbCollider;
     [SerializeField] private TutorialCollision _dashCollider;
     [SerializeField] private TutorialCollision _dashMadeCollider;
+    [SerializeField] private TutorialCollision _nextTutorialCollider;
 
     [Header("TextPositions")]
     [SerializeField] private Transform _moveTransform;
@@ -109,8 +111,14 @@ public class TutorialMovementAction : TutorialAction
         _dashReload.gameObject.SetActive(true);
         _tutorialPlayer.MoveToNextNarratorText();
         _tutorialPlayer.SetTextPosition(_afterDashTransform.localPosition);
-        yield return new WaitForSeconds(5);
+        _nextTutorialCollider.OnTriggerEntered += OnNextTutorialTriggered;
+    }
+
+    private void OnNextTutorialTriggered()
+    {
+        _nextTutorialCollider.OnTriggerEntered -= OnNextTutorialTriggered;
         OnActionFinishedInvoke();
+        TutorialManager.Instance.InstantiateTutorial(TutorialID.Cubes);
     }
 
     public override void Exit()
