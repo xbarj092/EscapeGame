@@ -8,6 +8,7 @@ public static class GlobalConstants
     {
         Player,
         BreakableCube,
-        TutorialCamera
+        TutorialCamera,
+        TutorialCollider
     }
 }

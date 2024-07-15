@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 1735384214439570683}
   m_Layer: 0
   m_Name: NearBreakableCollider
-  m_TagString: Untagged
+  m_TagString: TutorialCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -565,7 +565,7 @@ GameObject:
   - component: {fileID: 3618759938089615231}
   m_Layer: 0
   m_Name: NearMoveableCollider
-  m_TagString: Untagged
+  m_TagString: TutorialCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -659,7 +659,7 @@ GameObject:
   - component: {fileID: 5678425758558940195}
   m_Layer: 0
   m_Name: MovedCubeCollider
-  m_TagString: Untagged
+  m_TagString: TutorialCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -753,7 +753,7 @@ GameObject:
   - component: {fileID: 4986688627355703336}
   m_Layer: 0
   m_Name: BrokenCubeCollider
-  m_TagString: Untagged
+  m_TagString: TutorialCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
