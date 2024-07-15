@@ -72,6 +72,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         else
         {
             CurrentTutorial.OnTutorialEnd += OnCurrentTutorialEnd;
+            // CurrentTutorial.Action.StartAction();
         }
     }
 

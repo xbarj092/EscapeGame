@@ -352,10 +352,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: {fileID: 8011972293014753602}
   <TutorialID>k__BackingField: 0
-  <DarkenBackground>k__BackingField: 0
   Action: {fileID: 3382420798287038069}
   <MainTexts>k__BackingField: {fileID: 11400000, guid: b0b50bc994f0d9047a5eb026e41c21fc, type: 2}
-  _startingTextIndex: -1
 --- !u!1 &2214668472398701321
 GameObject:
   m_ObjectHideFlags: 0
@@ -1365,6 +1363,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 3}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
