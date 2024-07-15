@@ -16,6 +16,8 @@ public class CharacterController2D : MonoBehaviour
 
     [field: SerializeField] public LayerMask WhatIsWall { get; private set; }
     [field: SerializeField] public List<Transform> WallCheckList { get; private set; } = new();
+    [field: SerializeField] public TrailRenderer tr;
+
 
     [HideInInspector] public Rigidbody2D Rigidbody2D;
     [HideInInspector] public Vector3 Velocity = Vector3.zero;
@@ -27,7 +29,7 @@ public class CharacterController2D : MonoBehaviour
         Rigidbody2D = GetComponent<Rigidbody2D>();
 
         _flipHandler = new(this);
-        _dashHandler = new(this);
+        _dashHandler = new(this, tr);
         _jumpHandler = new(this);
         _climbHandler = new(this);
     }
