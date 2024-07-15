@@ -23,11 +23,15 @@ public class GroundChecker
 
         foreach (Transform transform in _controller.GroundCheckList)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, GROUND_CHECK_DISTANCE, _controller.WhatIsGround);
-            if (hit.collider != null && hit.collider.gameObject != _controller.gameObject)
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, GROUND_CHECK_DISTANCE, _controller.WhatIsGround);
+            foreach (Collider2D collider in colliders)
             {
-                IsGrounded = true;
-                _jumpHandler.DoubleJumpCharged = true;
+                if (collider.gameObject != _controller.gameObject && !collider.gameObject.CompareTag(GlobalConstants.Tags.TutorialCollider.ToString()))
+                {
+                    IsGrounded = true;
+                    _jumpHandler.DoubleJumpCharged = true;
+                    break;
+                }
             }
         }
 

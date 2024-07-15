@@ -18,7 +18,7 @@ public class JumpHandler
 
     private bool _canJump = true;
 
-    private const float JUMP_TIME_OUT = 0.1f;
+    private const float JUMP_TIME_OUT = 0.3f;
     private const float COYOTE_JUMP_OFFSET = 0.1f;
 
     public JumpHandler(CharacterController2D controller)

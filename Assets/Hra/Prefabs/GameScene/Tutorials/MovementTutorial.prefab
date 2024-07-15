@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 4980892297308376728}
   m_Layer: 0
   m_Name: DoubleJumpCollider
-  m_TagString: Untagged
+  m_TagString: TutorialCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -367,7 +367,7 @@ GameObject:
   - component: {fileID: 1065702694722751383}
   m_Layer: 0
   m_Name: ClimbCollider
-  m_TagString: Untagged
+  m_TagString: TutorialCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -554,7 +554,7 @@ GameObject:
   - component: {fileID: 4847704559399204365}
   m_Layer: 0
   m_Name: JumpCollider
-  m_TagString: Untagged
+  m_TagString: TutorialCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -683,7 +683,7 @@ GameObject:
   - component: {fileID: 8842453741198213649}
   m_Layer: 0
   m_Name: DashCollider
-  m_TagString: Untagged
+  m_TagString: TutorialCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -777,7 +777,7 @@ GameObject:
   - component: {fileID: 5959406690354277925}
   m_Layer: 0
   m_Name: DoubleJumpMadeCollider
-  m_TagString: Untagged
+  m_TagString: TutorialCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1017,7 +1017,7 @@ GameObject:
   - component: {fileID: 5644806092844653232}
   m_Layer: 0
   m_Name: NextTutorialCollider
-  m_TagString: Untagged
+  m_TagString: TutorialCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1154,7 +1154,7 @@ GameObject:
   - component: {fileID: 1289401623010959129}
   m_Layer: 0
   m_Name: DashMadeCollider
-  m_TagString: Untagged
+  m_TagString: TutorialCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1248,7 +1248,7 @@ GameObject:
   - component: {fileID: 4689037273536815179}
   m_Layer: 0
   m_Name: JumpMadeCollider
-  m_TagString: Untagged
+  m_TagString: TutorialCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
