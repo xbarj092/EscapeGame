@@ -29,6 +29,7 @@ public class TutorialMovementAction : TutorialAction
     {
         _controller = FindObjectOfType<CharacterController2D>();
         _dashReload = FindObjectOfType<UIDashReload>();
+        _dashReload.gameObject.SetActive(false);
 
         _tutorialPlayer.MoveToNextNarratorText();
         _tutorialPlayer.SetTextPosition(_moveTransform.localPosition);
@@ -124,7 +125,7 @@ public class TutorialMovementAction : TutorialAction
     private void MoveToNextTutorial()
     {
         TutorialManager.Instance.InstantiateTutorial(TutorialID.Cubes);
-        CinemachineVirtualCamera camera = FindObjectOfType<CinemachineVirtualCamera>();
+        CinemachineVirtualCamera camera = GameObject.FindGameObjectWithTag(GlobalConstants.Tags.TutorialCamera.ToString()).GetComponent<CinemachineVirtualCamera>();
         if (camera != null)
         {
             camera.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = 1;
