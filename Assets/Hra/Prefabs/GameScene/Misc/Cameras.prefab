@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Waypoints:
   - position: {x: 0, y: 0, z: -10}
     roll: 0
-  - position: {x: 0, y: 0, z: 5}
+  - position: {x: 18, y: 0, z: -10}
     roll: 0
 --- !u!1 &9130045480217648235
 GameObject:
