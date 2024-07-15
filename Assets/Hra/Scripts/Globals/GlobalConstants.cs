@@ -7,6 +7,7 @@ public static class GlobalConstants
     public enum Tags
     {
         Player,
-        BreakableCube
+        BreakableCube,
+        TutorialCamera
     }
 }

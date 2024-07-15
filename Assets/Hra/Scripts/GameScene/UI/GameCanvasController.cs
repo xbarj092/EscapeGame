@@ -1,15 +1,29 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameCanvasController : MonoBehaviour
 {
+    [SerializeField] private TutorialPlayer _tutorial;
     [SerializeField] private DeathScreen _deathScreenPrefab;
 
+    public SpriteRenderer Background;
+    public float fadeDuration = 1f;
+
     private Dictionary<GameScreenType, GameScreen> _instantiatedScreens = new();
+
+    private void Awake()
+    {
+        if (GameManager.Instance.CurrentLevel != 0)
+        {
+            Destroy(_tutorial.gameObject);
+        }
+    }
 
     private void OnEnable()
     {
         PlayerEvents.OnPlayerDeath += ShowDeathScreen;
+        StartCoroutine(BlackOutScreen(false));
     }
 
     private void OnDisable()
@@ -68,5 +82,20 @@ public class GameCanvasController : MonoBehaviour
         {
             _ => null
         };
+    }
+
+    public IEnumerator BlackOutScreen(bool black)
+    {
+        float startAlpha = Background.color.a;
+        float timeElapsed = 0f;
+
+        while (timeElapsed < fadeDuration)
+        {
+            timeElapsed += Time.deltaTime;
+            Background.color = new(Background.color.r, Background.color.g, Background.color.b, Mathf.Lerp(startAlpha, black ? 1 : 0, timeElapsed / fadeDuration));
+            yield return null;
+        }
+
+        Background.color = new(Background.color.r, Background.color.g, Background.color.b, black ? 1 : 0);
     }
 }

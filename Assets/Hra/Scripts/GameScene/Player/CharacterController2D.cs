@@ -20,9 +20,6 @@ public class CharacterController2D : MonoBehaviour
     [HideInInspector] public Rigidbody2D Rigidbody2D;
     [HideInInspector] public Vector3 Velocity = Vector3.zero;
 
-    public bool CanJump = false;
-    public bool CanDoubleJump = false;
-    public bool CanDash = false;
     public bool CanMove = true;
 
     private void Awake()
@@ -82,6 +79,6 @@ public class CharacterController2D : MonoBehaviour
     public bool IsWallCoyoteJumpPossible() => _climbHandler.IsCoyoteJumpPossible();
     public bool IsOnWall() => _climbHandler.IsOnWall();
     public bool IsDashing() => _dashHandler.IsDashing;
-    public bool IsDashPossible() => CanDash && _dashHandler.IsDashPossible();
+    public bool IsDashPossible() => GameManager.Instance.CanDash && _dashHandler.IsDashPossible();
     public float TimeToNextDash() => _dashHandler.TimeToNextDash();
 }

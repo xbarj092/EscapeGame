@@ -8,9 +8,21 @@ public class PlayerMovement : MonoBehaviour
     private float _horizontalMove = 0f;
     private float _verticalMove = 0f;
 
+    private bool _isDead;
+
+    private void OnEnable()
+    {
+        PlayerEvents.OnPlayerDeath += OnPlayerDeath;
+    }
+
+    private void OnDisable()
+    {
+        PlayerEvents.OnPlayerDeath -= OnPlayerDeath;
+    }
+
     private void Update()
     {
-        if (_controller.IsDashing()) return;
+        if (_controller.IsDashing() || _isDead) return;
 
         _horizontalMove = Input.GetAxisRaw("Horizontal") * _horizontalMultiplier;
         _verticalMove = Input.GetAxisRaw("Vertical") * _verticalMultiplier;
@@ -42,5 +54,10 @@ public class PlayerMovement : MonoBehaviour
         {
             _controller.DashPressed();
         }
+    }
+
+    private void OnPlayerDeath()
+    {
+        _isDead = true;
     }
 }

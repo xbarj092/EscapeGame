@@ -116,7 +116,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d761d671cf2d82a4aa7c7c6bc0a4998a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tutorial: {fileID: 1930611440652674362}
   _deathScreenPrefab: {fileID: 886773838160608661, guid: e233b5f19cb46cb40bfec0763b6f50ca, type: 3}
+  Background: {fileID: 0}
+  fadeDuration: 1
 --- !u!1001 &2483481398433982444
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -316,6 +319,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6c329bbd3153564a88c5086f00a8def, type: 3}
+--- !u!114 &1930611440652674362 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3911544009056290866, guid: b6c329bbd3153564a88c5086f00a8def, type: 3}
+  m_PrefabInstance: {fileID: 3207249498370993416}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22a3f43f4becedc4da9022e619c76e93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &5292584495791482003 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7345786486020098459, guid: b6c329bbd3153564a88c5086f00a8def, type: 3}

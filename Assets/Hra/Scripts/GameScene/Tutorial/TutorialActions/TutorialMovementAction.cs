@@ -22,13 +22,12 @@ public class TutorialMovementAction : TutorialAction
     [SerializeField] private Transform _dashTransform;
     [SerializeField] private Transform _afterDashTransform;
 
-    private CharacterController2D _controller;
     private UIDashReload _dashReload;
 
     public override void StartAction()
     {
-        _controller = FindObjectOfType<CharacterController2D>();
         _dashReload = FindObjectOfType<UIDashReload>();
+        _dashReload.gameObject.SetActive(false);
 
         _tutorialPlayer.MoveToNextNarratorText();
         _tutorialPlayer.SetTextPosition(_moveTransform.localPosition);
@@ -45,7 +44,7 @@ public class TutorialMovementAction : TutorialAction
     private void OnNearJumpTutorial()
     {
         _jumpCollider.OnTriggerEntered -= OnNearJumpTutorial;
-        _controller.CanJump = true;
+        GameManager.Instance.CanJump = true;
         _tutorialPlayer.MoveToNextNarratorText();
         _tutorialPlayer.SetTextPosition(_jumpTransform.localPosition);
         _jumpMadeCollider.OnTriggerEntered += OnJumpMadeTutorial;
@@ -61,7 +60,7 @@ public class TutorialMovementAction : TutorialAction
     private void OnNearDoubleJumpTutorial()
     {
         _doubleJumpCollider.OnTriggerEntered -= OnNearDoubleJumpTutorial;
-        _controller.CanDoubleJump = true;
+        GameManager.Instance.CanDoubleJump = true;
         _tutorialPlayer.MoveToNextNarratorText();
         _tutorialPlayer.SetTextPosition(_doubleJumpTransform.localPosition);
         _doubleJumpMadeCollider.OnTriggerEntered += OnPlayerDoubleJumpMade;
@@ -92,7 +91,7 @@ public class TutorialMovementAction : TutorialAction
     {
         _tutorialPlayer.TextFadeAway();
         yield return new WaitForSeconds(0.3f);
-        _controller.CanDash = true;
+        GameManager.Instance.CanDash = true;
         _tutorialPlayer.MoveToNextNarratorText();
         _tutorialPlayer.SetTextPosition(_dashTransform.localPosition);
         _dashMadeCollider.OnTriggerEntered += OnPlayerDashed;
@@ -124,7 +123,7 @@ public class TutorialMovementAction : TutorialAction
     private void MoveToNextTutorial()
     {
         TutorialManager.Instance.InstantiateTutorial(TutorialID.Cubes);
-        CinemachineVirtualCamera camera = FindObjectOfType<CinemachineVirtualCamera>();
+        CinemachineVirtualCamera camera = GameObject.FindGameObjectWithTag(GlobalConstants.Tags.TutorialCamera.ToString()).GetComponent<CinemachineVirtualCamera>();
         if (camera != null)
         {
             camera.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = 1;

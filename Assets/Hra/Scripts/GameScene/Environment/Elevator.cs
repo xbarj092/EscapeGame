@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Elevator : MonoBehaviour
 {
+    [SerializeField] private bool _shouldClose;
+    [SerializeField] private int _levelToLoad;
+
     [SerializeField] private Transform _goingUp;
     [SerializeField] private Transform _goingUpStartTransform;
     [SerializeField] private Transform _goingUpEndTransform;
@@ -27,7 +30,7 @@ public class Elevator : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag(GlobalConstants.Tags.Player.ToString()))
+        if (_shouldClose && collision.gameObject.CompareTag(GlobalConstants.Tags.Player.ToString()))
         {
             StartCoroutine(CloseElevator());
         }
@@ -35,10 +38,9 @@ public class Elevator : MonoBehaviour
 
     private IEnumerator CloseElevator()
     {
-        _controller.CanMove = false;
         yield return StartCoroutine(CloseDoors());
-        yield return StartCoroutine(GoUp());
-        _controller.CanMove = true;
+        StartCoroutine(GoUp());
+        yield return StartCoroutine(GameManager.Instance.MoveToLevel(_levelToLoad));
     }
 
     private IEnumerator CloseDoors()
