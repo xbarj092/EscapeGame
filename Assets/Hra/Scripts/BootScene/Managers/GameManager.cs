@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,6 +28,25 @@ public class GameManager : MonoSingleton<GameManager>
         StartCoroutine(MoveToLevel(CurrentLevel));
     }
 
+    public IEnumerator Final()
+    {
+        _controller = FindObjectOfType<CharacterController2D>();
+        _gameCanvasController = FindObjectOfType<GameCanvasController>();
+        _cameraManager = FindObjectOfType<CameraManager>();
+
+        _controller.CanMove = false;
+        BlackOutScreen(true);
+        yield return new WaitForSeconds(1);
+        SetCorrectCamera(4);
+        yield return new WaitForSeconds(2);
+        BlackOutScreen(false);
+        yield return new WaitForSeconds(1);
+        yield return StartCoroutine(FindObjectOfType<FinalElevator>().GoUp());
+        WhiteOutScreen();
+        yield return new WaitForSeconds(3);
+        SceneLoadManager.Instance.GoGameToMenu();
+    }
+
     public IEnumerator MoveToLevel(int levelToLoad)
     {
         _controller = FindObjectOfType<CharacterController2D>();
@@ -48,6 +68,11 @@ public class GameManager : MonoSingleton<GameManager>
     private void BlackOutScreen(bool black)
     {
         StartCoroutine(_gameCanvasController.BlackOutScreen(black));
+    }
+
+    private void WhiteOutScreen()
+    {
+        StartCoroutine(_gameCanvasController.WhiteOutScreen());
     }
 
     private void SetPlayerTransform(int levelToLoad)

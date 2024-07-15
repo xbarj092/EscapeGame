@@ -11,6 +11,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera _levelTwo;
     [SerializeField] private CinemachineVirtualCamera _levelThreePreview;
     [SerializeField] private CinemachineVirtualCamera _levelThree;
+    [SerializeField] private CinemachineVirtualCamera _levelFour;
 
     private void OnEnable()
     {
@@ -22,6 +23,7 @@ public class CameraManager : MonoBehaviour
         CameraSwitcher.Register(_levelTwo);
         CameraSwitcher.Register(_levelThreePreview);
         CameraSwitcher.Register(_levelThree);
+        CameraSwitcher.Register(_levelFour);
     }
 
     private void OnDisable()
@@ -33,6 +35,7 @@ public class CameraManager : MonoBehaviour
         CameraSwitcher.UnRegister(_levelTwo);
         CameraSwitcher.UnRegister(_levelThreePreview);
         CameraSwitcher.UnRegister(_levelThree);
+        CameraSwitcher.UnRegister(_levelFour);
     }
 
     public void EnterLevel(int level)
@@ -47,6 +50,9 @@ public class CameraManager : MonoBehaviour
                 break;
             case 3:
                 StartCoroutine(EnterLevelThree());
+                break;
+            case 4:
+                StartCoroutine(EnterLevelFour());
                 break;
         }
     }
@@ -82,5 +88,11 @@ public class CameraManager : MonoBehaviour
         body.m_DeadZoneHeight = 0;
         yield return new WaitForSeconds(1);
         body.m_DeadZoneHeight = 2;
+    }
+
+    private IEnumerator EnterLevelFour()
+    {
+        yield return new WaitForSeconds(0.5f);
+        CameraSwitcher.SwitchCamera(_levelFour);
     }
 }
