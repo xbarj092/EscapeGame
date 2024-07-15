@@ -8,7 +8,7 @@ public class GroundChecker
     public float LeftGroundTime;
     public bool IsGrounded;
 
-    private const float GROUND_CHECK_DISTANCE = 0.1f;
+    private const float GROUND_CHECK_DISTANCE = 0.05f;
 
     public GroundChecker(CharacterController2D controller, JumpHandler jumpHandler)
     {

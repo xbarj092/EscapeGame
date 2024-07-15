@@ -8,6 +8,7 @@ TagManager:
   - MoveableCube
   - TutorialCamera
   - Game
+  - TutorialCollider
   layers:
   - Default
   - TransparentFX

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class SceneLoadManager : MonoSingleton<SceneLoadManager>
 {
     protected override void Init()
@@ -20,6 +22,7 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
     public void GoMenuToGame()
     {
         SceneLoader.OnSceneLoadDone += OnMenuToGameLoadDone;
+        Cursor.lockState = CursorLockMode.Locked;
         SceneLoader.LoadScene(SceneLoader.Scenes.GameScene, toUnload: SceneLoader.Scenes.MenuScene);
     }
 
@@ -31,6 +34,7 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
     public void GoGameToMenu()
     {
         SceneLoader.OnSceneLoadDone += OnGameToMenuLoadDone;
+        Cursor.lockState = CursorLockMode.Confined;
         SceneLoader.LoadScene(SceneLoader.Scenes.MenuScene, toUnload: SceneLoader.Scenes.GameScene);
     }
 
