@@ -34,6 +34,8 @@ public class GameCanvasController : MonoBehaviour
     
     private void ShowDeathScreen()
     {
+        Destroy(FindObjectOfType<CharacterController2D>().gameObject);
+        Destroy(GameObject.FindGameObjectWithTag("Game").gameObject);
         ShowGameScreen(GameScreenType.Death);
     }
 
