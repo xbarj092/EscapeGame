@@ -91,7 +91,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3008bd0ee3e38124189c1aaf7d6b24d8, type: 2}
+  - {fileID: 2100000, guid: eb827c6857d4c0f45a512c2c89286164, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -113,7 +113,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: d1b88f97ed899f34991b675343253d7c, type: 3}
-  m_Color: {r: 0.27702618, g: 0.3758671, b: 0.5471698, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -159,7 +159,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.96, y: 0.96}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -219,11 +219,9 @@ MonoBehaviour:
     m_Bits: 8
   <WallCheckList>k__BackingField:
   - {fileID: 1914984492885081589}
+  tr: {fileID: 0}
   Rigidbody2D: {fileID: 3577795440098832013}
   Velocity: {x: 0, y: 0, z: 0}
-  CanJump: 0
-  CanDoubleJump: 0
-  CanDash: 0
   CanMove: 1
 --- !u!114 &4249418124691682122
 MonoBehaviour:
