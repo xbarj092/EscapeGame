@@ -1,11 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameCanvasController : MonoBehaviour
 {
+    [SerializeField] private TutorialPlayer _tutorial;
     [SerializeField] private DeathScreen _deathScreenPrefab;
 
     public SpriteRenderer Background;
@@ -13,9 +12,18 @@ public class GameCanvasController : MonoBehaviour
 
     private Dictionary<GameScreenType, GameScreen> _instantiatedScreens = new();
 
+    private void Awake()
+    {
+        if (GameManager.Instance.CurrentLevel != 0)
+        {
+            Destroy(_tutorial.gameObject);
+        }
+    }
+
     private void OnEnable()
     {
         PlayerEvents.OnPlayerDeath += ShowDeathScreen;
+        StartCoroutine(BlackOutScreen(false));
     }
 
     private void OnDisable()

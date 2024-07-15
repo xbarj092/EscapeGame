@@ -61,6 +61,6 @@ public class JumpHandler
     public void UpdateTimeElapsed(float deltaTime) => TimeElapsed += deltaTime;
 
     private bool IsCoyoteJumpPossible() => !GroundChecker.IsGrounded && TimeElapsed < GroundChecker.LeftGroundTime + COYOTE_JUMP_OFFSET;
-    private bool IsDoubleJumpPossible() => _controller.CanDoubleJump && !GroundChecker.IsGrounded && DoubleJumpCharged;
-    private bool IsJumpPossible() => _controller.CanJump && GroundChecker.IsGrounded || IsCoyoteJumpPossible() || _controller.IsWallCoyoteJumpPossible();
+    private bool IsDoubleJumpPossible() => GameManager.Instance.CanDoubleJump && !GroundChecker.IsGrounded && DoubleJumpCharged;
+    private bool IsJumpPossible() => GameManager.Instance.CanJump && GroundChecker.IsGrounded || IsCoyoteJumpPossible() || _controller.IsWallCoyoteJumpPossible();
 }

@@ -10,19 +10,39 @@ public class GameManager : MonoSingleton<GameManager>
     private GameCanvasController _gameCanvasController;
     private CameraManager _cameraManager;
 
+    public int CurrentLevel = 0;
+
+    public bool CanJump = false;
+    public bool CanDoubleJump = false;
+    public bool CanDash = false;
+
+    public void Respawn()
+    {
+        StartCoroutine(RestartCoroutine());
+    }
+
+    private IEnumerator RestartCoroutine()
+    {
+        yield return new WaitForSeconds(0.1f);
+        StartCoroutine(MoveToLevel(CurrentLevel));
+    }
+
     public IEnumerator MoveToLevel(int levelToLoad)
     {
         _controller = FindObjectOfType<CharacterController2D>();
         _gameCanvasController = FindObjectOfType<GameCanvasController>();
         _cameraManager = FindObjectOfType<CameraManager>();
 
+        _controller.CanMove = false;
         BlackOutScreen(true);
         yield return new WaitForSeconds(1);
         SetPlayerTransform(levelToLoad);
         SetCorrectCamera(levelToLoad);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         BlackOutScreen(false);
         yield return new WaitForSeconds(5);
+        CurrentLevel = levelToLoad;
+        _controller.CanMove = true;
     }
 
     private void BlackOutScreen(bool black)

@@ -38,11 +38,9 @@ public class Elevator : MonoBehaviour
 
     private IEnumerator CloseElevator()
     {
-        _controller.CanMove = false;
         yield return StartCoroutine(CloseDoors());
         StartCoroutine(GoUp());
         yield return StartCoroutine(GameManager.Instance.MoveToLevel(_levelToLoad));
-        _controller.CanMove = true;
     }
 
     private IEnumerator CloseDoors()

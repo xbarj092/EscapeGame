@@ -24,14 +24,6 @@ public class TutorialPlayer : MonoBehaviour
     public event Action<TutorialID> OnTutorialEnd;
     public event Action OnTextStarted;
 
-    public void OnEnable()
-    {
-        Action.Init(this);
-        Action.StartAction();
-        StartCoroutine(FadeInText());
-        Action.OnActionFinished += OnCurrentActionFinished;
-    }
-
     public void MoveToNextNarratorText()
     {
         _currentMainTextIndex++;
@@ -65,6 +57,15 @@ public class TutorialPlayer : MonoBehaviour
     public void TextFadeAway()
     {
         StartCoroutine(FadeOutText());
+    }
+
+    private IEnumerator Start()
+    {
+        yield return null;
+        Action.Init(this);
+        Action.StartAction();
+        StartCoroutine(FadeInText());
+        Action.OnActionFinished += OnCurrentActionFinished;
     }
 
     private IEnumerator FadeOutText()
