@@ -23,6 +23,7 @@ public class FlipHandler
         _facingRight = !_facingRight;
         Vector3 theScale = _controller.transform.localScale;
         theScale.x *= -1;
+        theScale.y *= -1;
         _controller.transform.localScale = theScale;
     }
 
