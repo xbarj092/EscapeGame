@@ -5,6 +5,9 @@ public class DashHandler
 {
     public bool IsDashing { get; private set; }
 
+
+    [SerializeField] private TrailRenderer _tr;
+
     private readonly CharacterController2D _controller;
     private float _cooldownTimer = 0f;
     private bool _dashPossible = true;
@@ -13,9 +16,10 @@ public class DashHandler
     private const float DASHING_TIME = 0.2f;
     private const float DASHING_COOLDOWN = 1f;
 
-    public DashHandler(CharacterController2D controller)
+    public DashHandler(CharacterController2D controller, TrailRenderer tr)
     {
         _controller = controller;
+        _tr = tr;
     }
 
     public void DashPressed()
@@ -35,7 +39,11 @@ public class DashHandler
         _controller.Rigidbody2D.gravityScale = 0f;
         _controller.Rigidbody2D.velocity = new Vector2(_controller.transform.localScale.x * DASHING_POWER, 0f);
 
+        _tr.emitting = true;
+        Debug.Log("started emitting");
         yield return new WaitForSeconds(DASHING_TIME);
+        _tr.emitting = false;
+        Debug.Log("stopped emitting");
 
         _controller.Rigidbody2D.gravityScale = originalGravity;
         IsDashing = false;
