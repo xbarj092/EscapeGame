@@ -1,3 +1,7 @@
+using System;
+using System.Collections;
+using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class JumpHandler
@@ -12,6 +16,9 @@ public class JumpHandler
     public float TimeElapsed { get; private set; }
     private bool _wantsToJump;
 
+    private bool _canJump = true;
+
+    private const float JUMP_TIME_OUT = 0.1f;
     private const float COYOTE_JUMP_OFFSET = 0.1f;
 
     public JumpHandler(CharacterController2D controller)
@@ -22,7 +29,7 @@ public class JumpHandler
 
     public void HandleJumping()
     {
-        if (!_wantsToJump) return;
+        if (!_canJump || !_wantsToJump) return;
 
         if (_controller.IsOnWall())
         {
@@ -32,6 +39,7 @@ public class JumpHandler
         else if (IsJumpPossible())
         {
             PerformJump();
+            _controller.StartCoroutine(TimeOut());
         }
         else if (IsDoubleJumpPossible())
         {
@@ -45,6 +53,13 @@ public class JumpHandler
     {
         GroundChecker.IsGrounded = false;
         _controller.Rigidbody2D.AddForce(new Vector2(horizontalVelocity, _verticalJumpForce));
+    }
+
+    private IEnumerator TimeOut()
+    {
+        _canJump = false;
+        yield return new WaitForSeconds(JUMP_TIME_OUT);
+        _canJump = true;
     }
 
     private void PerformDoubleJump()
