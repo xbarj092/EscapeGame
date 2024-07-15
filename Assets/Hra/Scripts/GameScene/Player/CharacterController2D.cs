@@ -23,6 +23,7 @@ public class CharacterController2D : MonoBehaviour
     public bool CanJump = false;
     public bool CanDoubleJump = false;
     public bool CanDash = false;
+    public bool CanMove = true;
 
     private void Awake()
     {
@@ -47,7 +48,7 @@ public class CharacterController2D : MonoBehaviour
 
     public void Move(float move, bool horizontal = true)
     {
-        if (_dashHandler.IsDashing) return;
+        if (_dashHandler.IsDashing || !CanMove) return;
 
         if (horizontal)
         {

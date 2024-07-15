@@ -9,7 +9,7 @@ public class DashHandler
     private float _cooldownTimer = 0f;
     private bool _dashPossible = true;
 
-    private const float DASHING_POWER = 40f;
+    private const float DASHING_POWER = 24f;
     private const float DASHING_TIME = 0.2f;
     private const float DASHING_COOLDOWN = 1f;
 

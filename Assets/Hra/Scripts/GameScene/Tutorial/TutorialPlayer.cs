@@ -13,12 +13,10 @@ public class TutorialPlayer : MonoBehaviour
 {
     [SerializeField] private TMP_Text _text;
     [field: SerializeField] public TutorialID TutorialID { get; private set; }
-    [field: SerializeField, Space(5)] public bool DarkenBackground { get; private set; }
 
     public TutorialAction Action;
     [field: SerializeField] public StringStorage MainTexts { get; private set; }
 
-    [SerializeField] private int _startingTextIndex = -1;
     private int _currentMainTextIndex = -1;
 
     private const float FADE_DURATION = 0.3f;

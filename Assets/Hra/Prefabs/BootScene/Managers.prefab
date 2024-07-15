@@ -169,4 +169,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <TutorialsEnabled>k__BackingField: 1
   <TutorialList>k__BackingField:
-  - {fileID: 0}
+  - {fileID: 3911544009056290866, guid: b6c329bbd3153564a88c5086f00a8def, type: 3}
+  - {fileID: 1267301355715084157, guid: ac9d0ab6c355fc2499168efbade82838, type: 3}
+  - {fileID: 2853735506924681094, guid: e9dcdd157ba39404dbc529441ffd136f, type: 3}
