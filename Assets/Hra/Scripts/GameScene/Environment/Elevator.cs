@@ -40,7 +40,14 @@ public class Elevator : MonoBehaviour
     {
         yield return StartCoroutine(CloseDoors());
         StartCoroutine(GoUp());
-        yield return StartCoroutine(GameManager.Instance.MoveToLevel(_levelToLoad));
+        if (_levelToLoad == 4)
+        {
+            yield return StartCoroutine(GameManager.Instance.Final());
+        }
+        else
+        {
+            yield return StartCoroutine(GameManager.Instance.MoveToLevel(_levelToLoad));
+        }
     }
 
     private IEnumerator CloseDoors()

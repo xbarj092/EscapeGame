@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -97,5 +98,19 @@ public class GameCanvasController : MonoBehaviour
         }
 
         Background.color = new(Background.color.r, Background.color.g, Background.color.b, black ? 1 : 0);
+    }
+
+    public IEnumerator WhiteOutScreen()
+    {
+        float timeElapsed = 0f;
+
+        while (timeElapsed < fadeDuration * 3)
+        {
+            timeElapsed += Time.deltaTime;
+            Background.color = new(255, 255, 255, Mathf.Lerp(0, 1, timeElapsed / (fadeDuration * 3)));
+            yield return null;
+        }
+
+        Background.color = new(255, 255, 255, 1);
     }
 }
