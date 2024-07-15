@@ -16,8 +16,8 @@ MonoBehaviour:
   - Use "A" and "D" keys, or left / right arrows to move
   - Press "Space" key to jump
   - You can jump for second time when pressing "Space" key mid-air
-  - White walls are easy to climb using "W" key. When on wall, you can jump off using
-    "Space" key
+  - White walls are sticky enough for you to climb them using "W" key. When climbing
+    a wall, you can jump off using "Space" key
   - When you press "LShift" key, you will dash
   - The white bar in top left corner is a dash idicator. When its full, you can use
     dash

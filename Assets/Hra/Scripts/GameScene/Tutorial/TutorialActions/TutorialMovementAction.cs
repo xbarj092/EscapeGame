@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ public class TutorialMovementAction : TutorialAction
     [SerializeField] private TutorialCollision _climbCollider;
     [SerializeField] private TutorialCollision _dashCollider;
     [SerializeField] private TutorialCollision _dashMadeCollider;
+    [SerializeField] private TutorialCollision _nextTutorialCollider;
 
     [Header("TextPositions")]
     [SerializeField] private Transform _moveTransform;
@@ -105,12 +107,28 @@ public class TutorialMovementAction : TutorialAction
     private IEnumerator OnPlayerDashedCoroutine()
     {
         _tutorialPlayer.TextFadeAway();
+        _nextTutorialCollider.OnTriggerEntered += OnNextTutorialTriggered;
         yield return new WaitForSeconds(0.3f);
         _dashReload.gameObject.SetActive(true);
         _tutorialPlayer.MoveToNextNarratorText();
         _tutorialPlayer.SetTextPosition(_afterDashTransform.localPosition);
-        yield return new WaitForSeconds(5);
+    }
+
+    private void OnNextTutorialTriggered()
+    {
+        _nextTutorialCollider.OnTriggerEntered -= OnNextTutorialTriggered;
         OnActionFinishedInvoke();
+        MoveToNextTutorial();
+    }
+
+    private void MoveToNextTutorial()
+    {
+        TutorialManager.Instance.InstantiateTutorial(TutorialID.Cubes);
+        CinemachineVirtualCamera camera = FindObjectOfType<CinemachineVirtualCamera>();
+        if (camera != null)
+        {
+            camera.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = 1;
+        }
     }
 
     public override void Exit()
